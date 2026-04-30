@@ -209,17 +209,26 @@
     </div>
   </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/@superbase/superbase-js@2"></script>
 <script>
   const emojis = ['🚗','🚙','🚕','🏎️','🚐','🚌'];
-  let annonces = [
-    { id:1, marque:'Renault', modele:'Clio IV', annee:2019, km:48000, carburant:'Diesel', prix:9500, prenom:'Marc', tel:'0612345678', desc:'Très bon état, CT OK, 1 seul propriétaire.' },
-    { id:2, marque:'Peugeot', modele:'208', annee:2021, km:22000, carburant:'Essence', prix:14200, prenom:'Sophie', tel:'0623456789', desc:'Comme neuf, toutes options.' },
-    { id:3, marque:'Volkswagen', modele:'Golf VII', annee:2018, km:71000, carburant:'Diesel', prix:11800, prenom:'Karim', tel:'0634567890', desc:'Entretien suivi, carnet complet.' },
-    { id:4, marque:'BMW', modele:'Série 3', annee:2020, km:35000, carburant:'Hybride', prix:28500, prenom:'Julie', tel:'0645678901', desc:'Pack luxe, toit ouvrant.' },
-    { id:5, marque:'Toyota', modele:'Yaris', annee:2022, km:15000, carburant:'Hybride', prix:16900, prenom:'Ahmed', tel:'0656789012', desc:'Faible consommation, garantie constructeur.' },
-    { id:6, marque:'Ford', modele:'Focus', annee:2017, km:89000, carburant:'Essence', prix:7200, prenom:'Léa', tel:'0667890123', desc:'Bon état général, pneus neufs.' },
-  ];
+  const SUPABASE_URL = 'https://fulipbhrniudwburowzr.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_4D3lCAYY82NdJGKc2T-_4w__yy1GzLN';
+  const supabase = supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  let annonces = [];
+  async function fetchAnnonces() {
+const { data, error } = await supabase
+.from('annonces')
+.select('*')
+.order('id', { ascending: false });
+
+if (!error && data) {
+annonces = data;
+renderCars(annonces);
+}
+}
+
+fetchAnnonces();
 
   function renderCars(list) {
     const grid = document.getElementById('cars-grid');
