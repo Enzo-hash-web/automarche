@@ -127,14 +127,14 @@
 </div>
 
 <div class="stats">
-  <div class="stat"><div class="stat-num" id="count-annonces">6</div><div class="stat-label">annonces</div></div>
+  <div class="stat"><div class="stat-num" id="count-annonces">0</div><div class="stat-label">annonces</div></div>
   <div class="stat"><div class="stat-num">100%</div><div class="stat-label">gratuit</div></div>
   <div class="stat"><div class="stat-num">PACA</div><div class="stat-label">région</div></div>
 </div>
 
 <div class="container">
   <div class="section-header">
-    <h2>Annonces récentes <span class="badge" id="badge-count">6 annonces</span></h2>
+    <h2>Annonces récentes <span class="badge" id="badge-count">0 annonce</span></h2>
     <a href="#" class="see-all">Voir tout</a>
   </div>
 
@@ -194,10 +194,9 @@
 </div>
 
 <footer>
-  © 2025 AutoMarché · Marseille / PACA · 100% gratuit · Fait avec ❤️
+  © 2026 AutoMarché · Marseille / PACA · 100% gratuit · Fait avec ❤️
 </footer>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
   <div class="modal">
     <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
@@ -209,15 +208,14 @@
     </div>
   </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const emojis = ['🚗','🚙','🚕','🏎️','🚐','🚌'];
   const SUPABASE_URL = 'https://fulipbhrmniudwburovzr.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_4D31CAYY82NdJGKc2t-_4w__yy1GzLN';
   
-  // Utilisation de window.supabase pour être sûr à 100%
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
   let annonces = [];
 
   async function fetchAnnonces() {
@@ -229,13 +227,10 @@
       if (!error && data) {
           annonces = data;
           renderCars(annonces);
-      } else if (error) {
-          console.error("Erreur Supabase:", error);
+      } else {
+          console.error("Erreur de chargement:", error);
       }
   }
-
-  fetchAnnonces();
-</script>
 
   function renderCars(list) {
     const grid = document.getElementById('cars-grid');
@@ -243,7 +238,7 @@
     document.getElementById('badge-count').textContent = list.length + ' annonce' + (list.length > 1 ? 's' : '');
     
     if (list.length === 0) {
-      grid.innerHTML = '<p style="color:#9a9a95;font-size:14px;grid-column:1/-1;">Aucune annonce trouvée.</p>';
+      grid.innerHTML = '<p style="color:#9a9a95;font-size:14px;grid-column:1/-1;">Aucune annonce trouvée pour le moment. Soyez le premier à en publier une !</p>';
       return;
     }
     
@@ -288,7 +283,6 @@
     if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open');
   }
 
-  // La fonction magique qui SAUVEGARDE vraiment
   async function submitAnnonce() {
     const marque = document.getElementById('f-marque').value.trim();
     const modele = document.getElementById('f-modele').value.trim();
@@ -305,7 +299,6 @@
       return;
     }
 
-    // Envoi à Supabase
     const { error } = await supabase.from('annonces').insert([{
       marque, modele, annee, km, prix, prenom, tel, carburant, desc
     }]);
@@ -315,10 +308,13 @@
     } else {
       alert('✅ Bravo ! Ton annonce est en ligne.');
       ['f-marque','f-modele','f-annee','f-km','f-prix','f-prenom','f-tel','f-desc'].forEach(id => document.getElementById(id).value = '');
-      fetchAnnonces(); // On recharge la page proprement
+      fetchAnnonces();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
+
+  // Lancement
+  fetchAnnonces();
 </script>
 </body>
 </html>
