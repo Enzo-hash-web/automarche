@@ -8,20 +8,11 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --red: #E24B4A;
-      --red-light: #fdf0f0;
-      --gray-100: #f5f5f3;
-      --gray-200: #e8e8e5;
-      --gray-400: #9a9a95;
-      --gray-700: #3a3a38;
-      --gray-900: #1a1a18;
-      --white: #ffffff;
-      --radius: 10px;
-      --radius-lg: 16px;
+      --red: #E24B4A; --red-light: #fdf0f0; --gray-100: #f5f5f3; --gray-200: #e8e8e5;
+      --gray-400: #9a9a95; --gray-700: #3a3a38; --gray-900: #1a1a18; --white: #ffffff;
+      --radius: 10px; --radius-lg: 16px;
     }
     body { font-family: 'DM Sans', sans-serif; background: var(--gray-100); color: var(--gray-900); min-height: 100vh; }
-
-    /* HEADER */
     header { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
     .logo { font-size: 20px; font-weight: 600; color: var(--gray-900); display: flex; align-items: center; gap: 8px; text-decoration: none; }
     .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--red); }
@@ -30,74 +21,40 @@
     .btn:hover { background: var(--gray-100); }
     .btn-primary { background: var(--red); color: white; border-color: var(--red); }
     .btn-primary:hover { background: #c43d3c; }
-
-    /* HERO */
     .hero { background: var(--white); padding: 48px 24px 40px; text-align: center; border-bottom: 1px solid var(--gray-200); }
     .hero h1 { font-size: 36px; font-weight: 600; color: var(--gray-900); line-height: 1.2; margin-bottom: 10px; }
     .hero h1 span { color: var(--red); }
     .hero p { font-size: 16px; color: var(--gray-400); margin-bottom: 28px; }
     .search-box { max-width: 600px; margin: 0 auto; background: var(--gray-100); border-radius: var(--radius-lg); padding: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
     .search-box input, .search-box select { flex: 1; min-width: 140px; padding: 10px 14px; border-radius: var(--radius); border: 1px solid var(--gray-200); background: var(--white); font-family: inherit; font-size: 14px; color: var(--gray-900); outline: none; }
-    .search-box input:focus, .search-box select:focus { border-color: var(--red); }
-    .search-box button { padding: 10px 22px; background: var(--red); color: white; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; }
-
-    /* STATS */
+    .search-box button { padding: 10px 22px; background: var(--red); color: white; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; }
     .stats { display: flex; justify-content: center; gap: 40px; padding: 24px; background: var(--white); border-bottom: 1px solid var(--gray-200); }
     .stat { text-align: center; }
     .stat-num { font-size: 24px; font-weight: 600; color: var(--gray-900); }
     .stat-label { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
-
-    /* CONTENT */
     .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
     .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
     .section-header h2 { font-size: 18px; font-weight: 600; }
     .badge { background: #eaf3de; color: #3b6d11; font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
-    .see-all { font-size: 14px; color: var(--red); text-decoration: none; font-weight: 500; }
-
-    /* GRID */
     .cars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-    .car-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); overflow: hidden; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+    .car-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); overflow: hidden; cursor: pointer; transition: transform 0.15s; }
     .car-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-    .car-img { width: 100%; height: 150px; object-fit: cover; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 48px; }
+    .car-img { width: 100%; height: 150px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 48px; }
     .car-body { padding: 14px 16px; }
-    .car-title { font-size: 15px; font-weight: 600; color: var(--gray-900); }
-    .car-sub { font-size: 13px; color: var(--gray-400); margin-top: 3px; }
+    .car-title { font-size: 15px; font-weight: 600; }
     .car-price { font-size: 20px; font-weight: 600; color: var(--red); margin-top: 10px; }
-    .car-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
     .tag { font-size: 12px; padding: 3px 9px; border-radius: 20px; background: var(--gray-100); color: var(--gray-700); border: 1px solid var(--gray-200); }
-
-    /* FORM SECTION */
     .form-section { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 28px; margin-top: 32px; }
-    .form-section h2 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
-    .form-section p { font-size: 14px; color: var(--gray-400); margin-bottom: 24px; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     .form-group.full { grid-column: 1 / -1; }
-    .form-group label { font-size: 13px; font-weight: 500; color: var(--gray-700); }
-    .form-group input, .form-group select, .form-group textarea { padding: 10px 14px; border-radius: var(--radius); border: 1px solid var(--gray-200); font-family: inherit; font-size: 14px; color: var(--gray-900); outline: none; background: var(--gray-100); transition: border-color 0.15s; }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--red); background: var(--white); }
-    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-group input, .form-group select, .form-group textarea { padding: 10px 14px; border-radius: var(--radius); border: 1px solid var(--gray-200); background: var(--gray-100); font-family: inherit; }
     .form-submit { margin-top: 18px; text-align: right; }
-
-    /* FOOTER */
     footer { text-align: center; padding: 32px 24px; color: var(--gray-400); font-size: 13px; border-top: 1px solid var(--gray-200); margin-top: 48px; background: var(--white); }
-
-    /* MODAL */
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; }
     .modal-overlay.open { display: flex; }
     .modal { background: var(--white); border-radius: var(--radius-lg); padding: 28px; max-width: 480px; width: 90%; }
-    .modal h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
-    .modal p { font-size: 14px; color: var(--gray-400); margin-bottom: 20px; }
-    .modal-close { float: right; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--gray-400); margin-top: -4px; }
-    .modal-detail { display: flex; gap: 10px; flex-direction: column; font-size: 14px; }
-    .modal-detail span { color: var(--gray-400); min-width: 80px; display: inline-block; }
-
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 26px; }
-      .stats { gap: 20px; }
-      .form-grid { grid-template-columns: 1fr; }
-      .form-group.full { grid-column: 1; }
-    }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -105,7 +62,6 @@
 <header>
   <a class="logo" href="#"><div class="logo-dot"></div>AutoMarché</a>
   <div class="header-btns">
-    <button class="btn" onclick="document.getElementById('deposer').scrollIntoView({behavior:'smooth'})">Se connecter</button>
     <button class="btn btn-primary" onclick="document.getElementById('deposer').scrollIntoView({behavior:'smooth'})">Déposer une annonce</button>
   </div>
 </header>
@@ -135,14 +91,11 @@
 <div class="container">
   <div class="section-header">
     <h2>Annonces récentes <span class="badge" id="badge-count">0 annonce</span></h2>
-    <a href="#" class="see-all">Voir tout</a>
   </div>
-
   <div class="cars-grid" id="cars-grid"></div>
 
   <div class="form-section" id="deposer">
     <h2>Déposer une annonce gratuite</h2>
-    <p>Vendez votre voiture en quelques minutes — sans inscription requise</p>
     <div class="form-grid">
       <div class="form-group">
         <label>Marque *</label>
@@ -154,7 +107,7 @@
       </div>
       <div class="form-group">
         <label>Année *</label>
-        <input type="number" id="f-annee" placeholder="Ex: 2019" min="1990" max="2026" />
+        <input type="number" id="f-annee" placeholder="Ex: 2019" />
       </div>
       <div class="form-group">
         <label>Kilométrage *</label>
@@ -167,7 +120,6 @@
           <option>Diesel</option>
           <option>Hybride</option>
           <option>Électrique</option>
-          <option>GPL</option>
         </select>
       </div>
       <div class="form-group">
@@ -176,7 +128,7 @@
       </div>
       <div class="form-group full">
         <label>Description</label>
-        <textarea id="f-desc" placeholder="État général, options, historique d'entretien..."></textarea>
+        <textarea id="f-desc" placeholder="Détails..."></textarea>
       </div>
       <div class="form-group">
         <label>Votre prénom *</label>
@@ -184,28 +136,20 @@
       </div>
       <div class="form-group">
         <label>Téléphone *</label>
-        <input type="tel" id="f-tel" placeholder="Ex: 06 12 34 56 78" />
+        <input type="tel" id="f-tel" placeholder="Ex: 06..." />
       </div>
     </div>
     <div class="form-submit">
-      <button class="btn btn-primary" style="padding:12px 28px;font-size:15px;" onclick="submitAnnonce()">Publier mon annonce gratuitement</button>
+      <button class="btn btn-primary" onclick="submitAnnonce()">Publier mon annonce</button>
     </div>
   </div>
 </div>
 
-<footer>
-  © 2026 AutoMarché · Marseille / PACA · 100% gratuit · Fait avec ❤️
-</footer>
-
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
   <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
     <h3 id="modal-title"></h3>
-    <p id="modal-sub"></p>
-    <div class="modal-detail" id="modal-detail"></div>
-    <div style="margin-top:20px;">
-      <button class="btn btn-primary" style="width:100%;justify-content:center;" id="modal-contact">Contacter le vendeur</button>
-    </div>
+    <div id="modal-detail" style="margin-top:15px; font-size:14px; line-height:1.6;"></div>
+    <button class="btn btn-primary" style="width:100%; margin-top:20px;" id="modal-contact">Appeler le vendeur</button>
   </div>
 </div>
 
@@ -214,115 +158,70 @@
   const emojis = ['🚗','🚙','🚕','🏎️','🚐','🚌'];
   const SUPABASE_URL = 'https://fulipbhrmniudwburovzr.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_4D31CAYY82NdJGKc2t-_4w__yy1GzLN';
-  
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
   let annonces = [];
 
   async function fetchAnnonces() {
-      const { data, error } = await supabase
-          .from('annonces')
-          .select('*')
-          .order('id', { ascending: false });
-
-      if (!error && data) {
-          annonces = data;
-          renderCars(annonces);
-      } else {
-          console.error("Erreur de chargement:", error);
-      }
+    const { data, error } = await db.from('annonces').select('*').order('id', { ascending: false });
+    if (!error && data) {
+      annonces = data;
+      renderCars(annonces);
+    }
   }
 
   function renderCars(list) {
     const grid = document.getElementById('cars-grid');
     document.getElementById('count-annonces').textContent = list.length;
     document.getElementById('badge-count').textContent = list.length + ' annonce' + (list.length > 1 ? 's' : '');
-    
-    if (list.length === 0) {
-      grid.innerHTML = '<p style="color:#9a9a95;font-size:14px;grid-column:1/-1;">Aucune annonce trouvée pour le moment. Soyez le premier à en publier une !</p>';
-      return;
-    }
-    
     grid.innerHTML = list.map((a, i) => `
       <div class="car-card" onclick="openModal(${a.id})">
-        <div class="car-img">${emojis[i % emojis.length]}</div>
+        <div class="car-img">${a.image || emojis[i % emojis.length]}</div>
         <div class="car-body">
           <div class="car-title">${a.marque} ${a.modele}</div>
-          <div class="car-sub">${a.annee} · ${a.km.toLocaleString('fr-FR')} km · ${a.carburant}</div>
-          <div class="car-price">${a.prix.toLocaleString('fr-FR')} €</div>
-          <div class="car-tags"><span class="tag">Particulier</span><span class="tag">${a.carburant}</span></div>
+          <div style="font-size:13px; color:#9a9a95;">${a.annee} · ${a.km} km</div>
+          <div class="car-price">${a.prix} €</div>
         </div>
       </div>
     `).join('');
   }
 
-  function filterCars() {
-    const q = document.getElementById('search-input').value.toLowerCase();
-    const budget = parseInt(document.getElementById('search-budget').value) || Infinity;
-    const filtered = annonces.filter(a =>
-      (a.marque.toLowerCase().includes(q) || a.modele.toLowerCase().includes(q)) && a.prix <= budget
-    );
-    renderCars(filtered);
+  async function submitAnnonce() {
+    const data = {
+      marque: document.getElementById('f-marque').value,
+      modele: document.getElementById('f-modele').value,
+      annee: parseInt(document.getElementById('f-annee').value),
+      km: parseInt(document.getElementById('f-km').value),
+      prix: parseInt(document.getElementById('f-prix').value),
+      prenom: document.getElementById('f-prenom').value,
+      tel: document.getElementById('f-tel').value,
+      carburant: document.getElementById('f-carburant').value,
+      desc: document.getElementById('f-desc').value,
+      image: emojis[Math.floor(Math.random() * emojis.length)]
+    };
+
+    const { error } = await db.from('annonces').insert([data]);
+    if (error) {
+      alert("Erreur : " + error.message);
+    } else {
+      alert("✅ Annonce publiée !");
+      location.reload();
+    }
   }
 
   function openModal(id) {
     const a = annonces.find(x => x.id === id);
     document.getElementById('modal-title').textContent = a.marque + ' ' + a.modele;
-    document.getElementById('modal-sub').textContent = a.desc || '';
     document.getElementById('modal-detail').innerHTML = `
-      <div><span>Année</span>${a.annee}</div>
-      <div><span>Kilométrage</span>${a.km.toLocaleString('fr-FR')} km</div>
-      <div><span>Carburant</span>${a.carburant}</div>
-      <div><span>Prix</span><strong style="color:#E24B4A">${a.prix.toLocaleString('fr-FR')} €</strong></div>
-      <div><span>Vendeur</span>${a.prenom}</div>
+      <b>Prix:</b> ${a.prix} €<br><b>KM:</b> ${a.km}<br><b>Énergie:</b> ${a.carburant}<br>
+      <b>Description:</b> ${a.desc}<br><b>Vendeur:</b> ${a.prenom}
     `;
     document.getElementById('modal-contact').onclick = () => window.location.href = 'tel:' + a.tel;
     document.getElementById('modal').classList.add('open');
   }
 
-  function closeModal(e) {
-    if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open');
-  }
+  function closeModal(e) { if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open'); }
 
-  async function submitAnnonce() {
-    const marque = document.getElementById('f-marque').value.trim();
-    const modele = document.getElementById('f-modele').value.trim();
-    const annee = parseInt(document.getElementById('f-annee').value);
-    const km = parseInt(document.getElementById('f-km').value);
-    const prix = parseInt(document.getElementById('f-prix').value);
-    const prenom = document.getElementById('f-prenom').value.trim();
-    const tel = document.getElementById('f-tel').value.trim();
-    const carburant = document.getElementById('f-carburant').value;
-    const desc = document.getElementById('f-desc').value.trim();
-
-    if (!marque || !modele || !annee || !km || !prix || !prenom || !tel) {
-      alert('Merci de remplir tous les champs obligatoires (*)');
-      return;
-    }
-const { error } = await supabase.from('annonces').insert([
-      {
-        marque: marque,
-        modele: modele,
-        annee: Number(annee),
-        km: Number(km),
-        prix: Number(prix),
-        prenom: prenom,
-        tel: tel,
-        carburant: carburant,
-        desc: desc
-        image: emojis[Math.floor(Math.random() * emojis.length)]
-      }
-    ]);
-    if (error) {
-      alert("Erreur technique : " + error.message);
-    } else {
-      alert('✅ Bravo ! Ton annonce est en ligne.');
-      ['f-marque','f-modele','f-annee','f-km','f-prix','f-prenom','f-tel','f-desc'].forEach(id => document.getElementById(id).value = '');
-      fetchAnnonces();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-
-  // Lancement
   fetchAnnonces();
 </script>
 </body>
