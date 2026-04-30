@@ -204,7 +204,7 @@
 <script>
   const SUPABASE_URL = 'https://fulipbhrniudwburowzr.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1bGlwYmhybml1ZHdidXJvd3pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDYxMTMsImV4cCI6MjA5MzEyMjExM30.mUSUXHcsv7Y2q2dc4I_W0tKkDxHC3hB2GADnbiElTus';
-  const { createClient } = supabase;
+  const { createClient } = window.supabase;
   const db = createClient(SUPABASE_URL, SUPABASE_KEY);
  
   const emojis = ['🚗','🚙','🚕','🏎️','🚐','🚌','🚓','🚑'];
