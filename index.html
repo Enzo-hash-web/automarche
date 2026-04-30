@@ -298,11 +298,20 @@
       alert('Merci de remplir tous les champs obligatoires (*)');
       return;
     }
-
-    const { error } = await supabase.from('annonces').insert([{
-      marque, modele, annee, km, prix, prenom, tel, carburant, desc
-    }]);
-
+const { error } = await supabase.from('annonces').insert([
+      {
+        marque: marque,
+        modele: modele,
+        annee: Number(annee),
+        km: Number(km),
+        prix: Number(prix),
+        prenom: prenom,
+        tel: tel,
+        carburant: carburant,
+        desc: desc
+        image: emojis[Math.floor(Math.random() * emojis.length)]
+      }
+    ]);
     if (error) {
       alert("Erreur technique : " + error.message);
     } else {
