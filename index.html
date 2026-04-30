@@ -19,7 +19,7 @@
       --radius-lg: 16px;
     }
     body { font-family: 'DM Sans', sans-serif; background: var(--gray-100); color: var(--gray-900); min-height: 100vh; }
-
+ 
     header { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
     .logo { font-size: 20px; font-weight: 600; color: var(--gray-900); display: flex; align-items: center; gap: 8px; text-decoration: none; }
     .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--red); }
@@ -27,7 +27,7 @@
     .btn:hover { background: var(--gray-100); }
     .btn-primary { background: var(--red); color: white; border-color: var(--red); }
     .btn-primary:hover { background: #c43d3c; }
-
+ 
     .hero { background: var(--white); padding: 48px 24px 40px; text-align: center; border-bottom: 1px solid var(--gray-200); }
     .hero h1 { font-size: 36px; font-weight: 600; line-height: 1.2; margin-bottom: 10px; }
     .hero h1 span { color: var(--red); }
@@ -36,33 +36,33 @@
     .search-box input, .search-box select { flex: 1; min-width: 140px; padding: 10px 14px; border-radius: var(--radius); border: 1px solid var(--gray-200); background: var(--white); font-family: inherit; font-size: 14px; color: var(--gray-900); outline: none; }
     .search-box input:focus, .search-box select:focus { border-color: var(--red); }
     .search-box button { padding: 10px 22px; background: var(--red); color: white; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; }
-
+ 
     .stats { display: flex; justify-content: center; gap: 40px; padding: 24px; background: var(--white); border-bottom: 1px solid var(--gray-200); }
     .stat { text-align: center; }
     .stat-num { font-size: 24px; font-weight: 600; }
     .stat-label { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
-
+ 
     .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
     .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
     .section-header h2 { font-size: 18px; font-weight: 600; }
     .badge { background: #eaf3de; color: #3b6d11; font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
-
+ 
     .cars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
     .car-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); overflow: hidden; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
     .car-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-    .car-img { width: 100%; height: 180px; object-fit: cover; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 48px; }
-    .car-img img { width: 100%; height: 180px; object-fit: cover; }
+    .car-img { width: 100%; height: 180px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 48px; overflow: hidden; }
+    .car-img img { width: 100%; height: 100%; object-fit: cover; }
     .car-body { padding: 14px 16px; }
     .car-title { font-size: 15px; font-weight: 600; }
     .car-sub { font-size: 13px; color: var(--gray-400); margin-top: 3px; }
     .car-price { font-size: 20px; font-weight: 600; color: var(--red); margin-top: 10px; }
     .car-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
     .tag { font-size: 12px; padding: 3px 9px; border-radius: 20px; background: var(--gray-100); color: var(--gray-700); border: 1px solid var(--gray-200); }
-
+ 
     .empty-state { grid-column: 1/-1; text-align: center; padding: 48px 24px; color: var(--gray-400); }
     .empty-state div { font-size: 40px; margin-bottom: 12px; }
     .loading { grid-column: 1/-1; text-align: center; padding: 48px; color: var(--gray-400); font-size: 15px; }
-
+ 
     .form-section { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 28px; margin-top: 32px; }
     .form-section h2 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
     .form-section p { font-size: 14px; color: var(--gray-400); margin-bottom: 24px; }
@@ -73,42 +73,39 @@
     .form-group input, .form-group select, .form-group textarea { padding: 10px 14px; border-radius: var(--radius); border: 1px solid var(--gray-200); font-family: inherit; font-size: 14px; color: var(--gray-900); outline: none; background: var(--gray-100); transition: border-color 0.15s; }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--red); background: var(--white); }
     .form-group textarea { resize: vertical; min-height: 90px; }
-
-    /* PHOTO UPLOAD */
+ 
     .photo-upload-area { border: 2px dashed var(--gray-200); border-radius: var(--radius-lg); padding: 24px; text-align: center; cursor: pointer; transition: all 0.15s; background: var(--gray-100); }
     .photo-upload-area:hover { border-color: var(--red); background: #fdf0f0; }
-    .photo-upload-area input { display: none; }
     .photo-upload-area .icon { font-size: 32px; margin-bottom: 8px; }
     .photo-upload-area p { font-size: 14px; color: var(--gray-400); }
     .photo-upload-area span { font-size: 13px; color: var(--red); font-weight: 500; }
     .photo-previews { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .photo-preview { width: 80px; height: 80px; border-radius: var(--radius); object-fit: cover; border: 1px solid var(--gray-200); }
-
+    .photo-preview-wrap { position: relative; }
+    .photo-preview { width: 80px; height: 80px; border-radius: var(--radius); object-fit: cover; border: 1px solid var(--gray-200); display: block; }
+    .photo-remove { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: var(--red); color: white; border: none; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
+ 
     .form-submit { margin-top: 18px; text-align: right; }
-
+ 
     footer { text-align: center; padding: 32px 24px; color: var(--gray-400); font-size: 13px; border-top: 1px solid var(--gray-200); margin-top: 48px; background: var(--white); }
-
-    /* MODAL */
+ 
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
     .modal-overlay.open { display: flex; }
-    .modal { background: var(--white); border-radius: var(--radius-lg); padding: 0; max-width: 560px; width: 100%; overflow: hidden; max-height: 90vh; overflow-y: auto; }
-    .modal-photos { width: 100%; height: 240px; object-fit: cover; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 64px; }
-    .modal-photos img { width: 100%; height: 240px; object-fit: cover; }
-    .modal-body { padding: 24px; }
-    .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
-    .modal h3 { font-size: 20px; font-weight: 600; }
-    .modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--gray-400); line-height: 1; }
-    .modal p { font-size: 14px; color: var(--gray-400); margin-bottom: 16px; }
-    .modal-detail { display: flex; flex-direction: column; gap: 10px; font-size: 14px; margin-bottom: 20px; }
-    .modal-detail div { display: flex; gap: 8px; }
-    .modal-detail span { color: var(--gray-400); min-width: 90px; }
-    .modal-price { font-size: 26px; font-weight: 600; color: var(--red); margin-bottom: 20px; }
-
-    /* GALERIE MINIATURES */
-    .modal-thumbs { display: flex; gap: 8px; padding: 0 24px 16px; overflow-x: auto; }
+    .modal { background: var(--white); border-radius: var(--radius-lg); max-width: 560px; width: 100%; overflow: hidden; max-height: 90vh; overflow-y: auto; }
+    .modal-main-photo { width: 100%; height: 260px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 64px; overflow: hidden; }
+    .modal-main-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .modal-thumbs { display: flex; gap: 8px; padding: 10px 20px; overflow-x: auto; }
     .modal-thumb { width: 64px; height: 48px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid transparent; flex-shrink: 0; }
     .modal-thumb.active { border-color: var(--red); }
-
+    .modal-body { padding: 20px 24px 24px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+    .modal h3 { font-size: 20px; font-weight: 600; }
+    .modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--gray-400); }
+    .modal-price { font-size: 26px; font-weight: 600; color: var(--red); margin: 8px 0 16px; }
+    .modal-detail { display: flex; flex-direction: column; gap: 8px; font-size: 14px; margin-bottom: 16px; }
+    .modal-detail div { display: flex; gap: 8px; }
+    .modal-detail span { color: var(--gray-400); min-width: 90px; }
+    .modal-desc { font-size: 14px; color: var(--gray-700); margin-bottom: 20px; line-height: 1.6; }
+ 
     @media (max-width: 600px) {
       .hero h1 { font-size: 26px; }
       .stats { gap: 20px; }
@@ -118,12 +115,12 @@
   </style>
 </head>
 <body>
-
+ 
 <header>
   <a class="logo" href="#"><div class="logo-dot"></div>AutoMarché</a>
   <button class="btn btn-primary" onclick="document.getElementById('deposer').scrollIntoView({behavior:'smooth'})">Déposer une annonce</button>
 </header>
-
+ 
 <div class="hero">
   <h1>Achetez ou vendez votre voiture<br><span>entre particuliers</span></h1>
   <p>Des annonces partout en France — 100% gratuit, sans intermédiaire</p>
@@ -139,22 +136,21 @@
     <button onclick="filterCars()">Rechercher</button>
   </div>
 </div>
-
+ 
 <div class="stats">
   <div class="stat"><div class="stat-num" id="count-annonces">—</div><div class="stat-label">annonces</div></div>
   <div class="stat"><div class="stat-num">100%</div><div class="stat-label">gratuit</div></div>
   <div class="stat"><div class="stat-num">France</div><div class="stat-label">entière</div></div>
 </div>
-
+ 
 <div class="container">
   <div class="section-header">
     <h2>Annonces récentes <span class="badge" id="badge-count">chargement...</span></h2>
   </div>
-
   <div class="cars-grid" id="cars-grid">
     <div class="loading">⏳ Chargement des annonces...</div>
   </div>
-
+ 
   <div class="form-section" id="deposer">
     <h2>Déposer une annonce gratuite</h2>
     <p>Vendez votre voiture en quelques minutes — sans inscription requise</p>
@@ -191,11 +187,15 @@
       </div>
       <div class="form-group">
         <label>Ville *</label>
-        <input type="text" id="f-ville" placeholder="Ex: Paris, Lyon, Marseille..." />
+        <input type="text" id="f-ville" placeholder="Ex: Paris, Lyon..." />
       </div>
       <div class="form-group">
         <label>Téléphone *</label>
         <input type="tel" id="f-tel" placeholder="Ex: 06 12 34 56 78" />
+      </div>
+      <div class="form-group">
+        <label>Votre prénom *</label>
+        <input type="text" id="f-prenom" placeholder="Ex: Marc" />
       </div>
       <div class="form-group full">
         <label>Description</label>
@@ -204,16 +204,12 @@
       <div class="form-group full">
         <label>Photos (max 5)</label>
         <div class="photo-upload-area" onclick="document.getElementById('f-photos').click()">
-          <input type="file" id="f-photos" accept="image/*" multiple onchange="previewPhotos(event)" />
+          <input type="file" id="f-photos" accept="image/*" multiple onchange="addPhotos(event)" />
           <div class="icon">📷</div>
           <p>Clique pour ajouter des photos</p>
           <span>JPG, PNG — max 5 Mo par photo</span>
         </div>
         <div class="photo-previews" id="photo-previews"></div>
-      </div>
-      <div class="form-group">
-        <label>Votre prénom *</label>
-        <input type="text" id="f-prenom" placeholder="Ex: Marc" />
       </div>
     </div>
     <div class="form-submit">
@@ -221,15 +217,12 @@
     </div>
   </div>
 </div>
-
-<footer>
-  © 2025 AutoMarché · France entière · 100% gratuit
-</footer>
-
-<!-- MODAL -->
+ 
+<footer>© 2025 AutoMarché · France entière · 100% gratuit</footer>
+ 
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
   <div class="modal">
-    <div class="modal-photos" id="modal-main-photo">🚗</div>
+    <div class="modal-main-photo" id="modal-main-photo">🚗</div>
     <div class="modal-thumbs" id="modal-thumbs"></div>
     <div class="modal-body">
       <div class="modal-header">
@@ -238,67 +231,98 @@
       </div>
       <div class="modal-price" id="modal-price"></div>
       <div class="modal-detail" id="modal-detail"></div>
-      <p id="modal-sub"></p>
+      <div class="modal-desc" id="modal-sub"></div>
       <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px;" id="modal-contact">📞 Contacter le vendeur</button>
     </div>
   </div>
 </div>
-
+ 
 <script>
   const SUPABASE_URL = 'https://fulipbhrniudwburowzr.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1bGlwYmhybml1ZHdidXJvd3pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDYxMTMsImV4cCI6MjA5MzEyMjExM30.mUSUXHcsv7Y2q2dc4I_W0tKkDxHC3hB2GADnbiElTus';
-
+ 
   const headers = {
     'Content-Type': 'application/json',
     'apikey': SUPABASE_KEY,
     'Authorization': 'Bearer ' + SUPABASE_KEY
   };
-
+ 
   const emojis = ['🚗','🚙','🚕','🏎️','🚐','🚌','🚓','🚑'];
   let allAnnonces = [];
-  let selectedFiles = [];
-
-  // PREVIEW PHOTOS
-  function previewPhotos(event) {
-    selectedFiles = Array.from(event.target.files).slice(0, 5);
+  let selectedFiles = []; // tableau cumulatif
+ 
+  // AJOUT CUMULATIF des photos
+  function addPhotos(event) {
+    const newFiles = Array.from(event.target.files);
+    // On cumule sans dépasser 5
+    for (const f of newFiles) {
+      if (selectedFiles.length < 5) selectedFiles.push(f);
+    }
+    // Reset l'input pour permettre de re-sélectionner
+    event.target.value = '';
+    renderPreviews();
+  }
+ 
+  function removePhoto(index) {
+    selectedFiles.splice(index, 1);
+    renderPreviews();
+  }
+ 
+  function renderPreviews() {
     const container = document.getElementById('photo-previews');
     container.innerHTML = '';
-    selectedFiles.forEach(file => {
+    selectedFiles.forEach((file, i) => {
       const reader = new FileReader();
       reader.onload = e => {
-        const img = document.createElement('img');
-        img.src = e.target.result;
-        img.className = 'photo-preview';
-        container.appendChild(img);
+        const wrap = document.createElement('div');
+        wrap.className = 'photo-preview-wrap';
+        wrap.innerHTML = `
+          <img src="${e.target.result}" class="photo-preview" />
+          <button class="photo-remove" onclick="removePhoto(${i})">✕</button>
+        `;
+        container.appendChild(wrap);
       };
       reader.readAsDataURL(file);
     });
+    // Mettre à jour le label
+    const area = document.querySelector('.photo-upload-area p');
+    area.textContent = selectedFiles.length === 0
+      ? 'Clique pour ajouter des photos'
+      : `${selectedFiles.length}/5 photo(s) — clique pour en ajouter`;
   }
-
-  // UPLOAD PHOTOS
+ 
+  // UPLOAD PHOTOS vers Supabase Storage
   async function uploadPhotos(annonceId) {
     const urls = [];
     for (let i = 0; i < selectedFiles.length; i++) {
       const file = selectedFiles[i];
-      const ext = file.name.split('.').pop();
-      const path = `${annonceId}/${i}.${ext}`;
-      const res = await fetch(`${SUPABASE_URL}/storage/v1/object/photos/${path}`, {
-        method: 'POST',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_KEY,
-          'Content-Type': file.type
-        },
-        body: file
-      });
-      if (res.ok) {
-        urls.push(`${SUPABASE_URL}/storage/v1/object/public/photos/${path}`);
+      const ext = file.name.split('.').pop().toLowerCase();
+      const path = `${annonceId}/${Date.now()}_${i}.${ext}`;
+      try {
+        const res = await fetch(`${SUPABASE_URL}/storage/v1/object/photos/${path}`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY,
+            'Content-Type': file.type,
+            'x-upsert': 'true'
+          },
+          body: file
+        });
+        if (res.ok) {
+          urls.push(`${SUPABASE_URL}/storage/v1/object/public/photos/${path}`);
+        } else {
+          const err = await res.json();
+          console.error('Upload error:', err);
+        }
+      } catch(e) {
+        console.error('Upload failed:', e);
       }
     }
     return urls;
   }
-
-  // LOAD ANNONCES
+ 
+  // CHARGER LES ANNONCES
   async function loadAnnonces() {
     try {
       const res = await fetch(SUPABASE_URL + '/rest/v1/annonces?select=*&order=created_at.desc', { headers });
@@ -310,7 +334,7 @@
       document.getElementById('cars-grid').innerHTML = '<div class="loading">❌ Erreur : ' + e.message + '</div>';
     }
   }
-
+ 
   function renderCars(list) {
     const grid = document.getElementById('cars-grid');
     document.getElementById('count-annonces').textContent = list.length;
@@ -320,7 +344,8 @@
       return;
     }
     grid.innerHTML = list.map((a, i) => {
-      const photos = a.photos ? JSON.parse(a.photos) : [];
+      let photos = [];
+      try { photos = a.photos ? JSON.parse(a.photos) : []; } catch(e) {}
       const imgHtml = photos.length > 0
         ? `<div class="car-img"><img src="${photos[0]}" alt="${a.marque} ${a.modele}" loading="lazy" /></div>`
         : `<div class="car-img">${emojis[i % emojis.length]}</div>`;
@@ -337,7 +362,7 @@
       `;
     }).join('');
   }
-
+ 
   function filterCars() {
     const q = document.getElementById('search-input').value.toLowerCase();
     const budget = parseInt(document.getElementById('search-budget').value) || Infinity;
@@ -346,30 +371,24 @@
     );
     renderCars(filtered);
   }
-
+ 
   function openModal(id) {
     const a = allAnnonces.find(x => x.id === id);
-    const photos = a.photos ? JSON.parse(a.photos) : [];
-
-    // Photo principale
+    let photos = [];
+    try { photos = a.photos ? JSON.parse(a.photos) : []; } catch(e) {}
+ 
     const mainPhoto = document.getElementById('modal-main-photo');
     if (photos.length > 0) {
-      mainPhoto.innerHTML = `<img src="${photos[0]}" style="width:100%;height:240px;object-fit:cover;" />`;
+      mainPhoto.innerHTML = `<img src="${photos[0]}" />`;
     } else {
       mainPhoto.innerHTML = '🚗';
-      mainPhoto.style.fontSize = '64px';
     }
-
-    // Miniatures
+ 
     const thumbs = document.getElementById('modal-thumbs');
-    if (photos.length > 1) {
-      thumbs.innerHTML = photos.map((p, i) => `
-        <img src="${p}" class="modal-thumb ${i===0?'active':''}" onclick="switchPhoto('${p}', this)" />
-      `).join('');
-    } else {
-      thumbs.innerHTML = '';
-    }
-
+    thumbs.innerHTML = photos.length > 1
+      ? photos.map((p, i) => `<img src="${p}" class="modal-thumb ${i===0?'active':''}" onclick="switchPhoto('${p}', this)" />`).join('')
+      : '';
+ 
     document.getElementById('modal-title').textContent = a.marque + ' ' + a.modele;
     document.getElementById('modal-price').textContent = Number(a.prix).toLocaleString('fr-FR') + ' €';
     document.getElementById('modal-sub').textContent = a.description || '';
@@ -383,17 +402,17 @@
     document.getElementById('modal-contact').onclick = () => window.location.href = 'tel:' + a.tel;
     document.getElementById('modal').classList.add('open');
   }
-
+ 
   function switchPhoto(src, el) {
-    document.getElementById('modal-main-photo').innerHTML = `<img src="${src}" style="width:100%;height:240px;object-fit:cover;" />`;
+    document.getElementById('modal-main-photo').innerHTML = `<img src="${src}" />`;
     document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
   }
-
+ 
   function closeModal(e) {
     if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open');
   }
-
+ 
   async function submitAnnonce() {
     const marque = document.getElementById('f-marque').value.trim();
     const modele = document.getElementById('f-modele').value.trim();
@@ -405,16 +424,16 @@
     const carburant = document.getElementById('f-carburant').value;
     const description = document.getElementById('f-desc').value.trim();
     const ville = document.getElementById('f-ville').value.trim();
-
+ 
     if (!marque || !modele || !annee || !km || !prix || !prenom || !tel || !ville) {
       alert('Merci de remplir tous les champs obligatoires (*)');
       return;
     }
-
+ 
     const btn = document.getElementById('submit-btn');
-    btn.textContent = '⏳ Publication en cours...';
+    btn.textContent = '⏳ Création de l\'annonce...';
     btn.disabled = true;
-
+ 
     try {
       // 1. Créer l'annonce
       const res = await fetch(SUPABASE_URL + '/rest/v1/annonces', {
@@ -423,35 +442,39 @@
         body: JSON.stringify({ marque, modele, annee, km, carburant, prix, prenom, tel, description, ville, photos: '[]' })
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok) throw new Error(data.message || JSON.stringify(data));
       const annonceId = data[0].id;
-
-      // 2. Upload les photos si présentes
+ 
+      // 2. Upload photos si présentes
+      let photoUrls = [];
       if (selectedFiles.length > 0) {
         btn.textContent = '📷 Upload des photos...';
-        const photoUrls = await uploadPhotos(annonceId);
-        // 3. Mettre à jour l'annonce avec les URLs
-        await fetch(SUPABASE_URL + `/rest/v1/annonces?id=eq.${annonceId}`, {
+        photoUrls = await uploadPhotos(annonceId);
+        // 3. Mettre à jour avec les URLs
+        await fetch(`${SUPABASE_URL}/rest/v1/annonces?id=eq.${annonceId}`, {
           method: 'PATCH',
           headers,
           body: JSON.stringify({ photos: JSON.stringify(photoUrls) })
         });
       }
-
+ 
+      // Reset formulaire
       ['f-marque','f-modele','f-annee','f-km','f-prix','f-prenom','f-tel','f-desc','f-ville'].forEach(id => document.getElementById(id).value = '');
-      document.getElementById('photo-previews').innerHTML = '';
       selectedFiles = [];
+      document.getElementById('photo-previews').innerHTML = '';
+      document.querySelector('.photo-upload-area p').textContent = 'Clique pour ajouter des photos';
+ 
       await loadAnnonces();
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      alert('✅ Annonce publiée avec succès !');
+      alert('✅ Annonce publiée avec succès !' + (photoUrls.length > 0 ? ` (${photoUrls.length} photo(s) ajoutée(s))` : ''));
     } catch(e) {
       alert('Erreur : ' + e.message);
     }
-
+ 
     btn.textContent = 'Publier mon annonce gratuitement';
     btn.disabled = false;
   }
-
+ 
   loadAnnonces();
 </script>
 </body>
