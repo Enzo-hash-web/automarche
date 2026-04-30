@@ -204,7 +204,7 @@
       <div class="form-group full">
         <label>Photos (max 5)</label>
         <div class="photo-upload-area" onclick="document.getElementById('f-photos').click()">
-          <input type="file" id="f-photos" accept="image/*" multiple onchange="addPhotos(event)" />
+          <input type="file" id="f-photos" accept="image/*" multiple onchange="addPhotos(event)" style="display:none" />
           <div class="icon">📷</div>
           <p>Clique pour ajouter des photos</p>
           <span>JPG, PNG — max 5 Mo par photo</span>
@@ -218,7 +218,7 @@
   </div>
 </div>
  
-<footer>© 2025 AutoMarché · France entière · 100% gratuit</footer>
+<footer>© 2026 AutoMarché · France entière · 100% gratuit</footer>
  
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
   <div class="modal">
@@ -241,7 +241,7 @@
   const SUPABASE_URL = 'https://fulipbhrniudwburowzr.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1bGlwYmhybml1ZHdidXJvd3pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDYxMTMsImV4cCI6MjA5MzEyMjExM30.mUSUXHcsv7Y2q2dc4I_W0tKkDxHC3hB2GADnbiElTus';
  
-  const headers = {
+  const jsonHeaders = {
     'Content-Type': 'application/json',
     'apikey': SUPABASE_KEY,
     'Authorization': 'Bearer ' + SUPABASE_KEY
@@ -249,16 +249,13 @@
  
   const emojis = ['🚗','🚙','🚕','🏎️','🚐','🚌','🚓','🚑'];
   let allAnnonces = [];
-  let selectedFiles = []; // tableau cumulatif
+  let selectedFiles = [];
  
-  // AJOUT CUMULATIF des photos
   function addPhotos(event) {
     const newFiles = Array.from(event.target.files);
-    // On cumule sans dépasser 5
     for (const f of newFiles) {
       if (selectedFiles.length < 5) selectedFiles.push(f);
     }
-    // Reset l'input pour permettre de re-sélectionner
     event.target.value = '';
     renderPreviews();
   }
@@ -276,22 +273,17 @@
       reader.onload = e => {
         const wrap = document.createElement('div');
         wrap.className = 'photo-preview-wrap';
-        wrap.innerHTML = `
-          <img src="${e.target.result}" class="photo-preview" />
-          <button class="photo-remove" onclick="removePhoto(${i})">✕</button>
-        `;
+        wrap.innerHTML = `<img src="${e.target.result}" class="photo-preview" /><button class="photo-remove" onclick="removePhoto(${i})">✕</button>`;
         container.appendChild(wrap);
       };
       reader.readAsDataURL(file);
     });
-    // Mettre à jour le label
     const area = document.querySelector('.photo-upload-area p');
     area.textContent = selectedFiles.length === 0
       ? 'Clique pour ajouter des photos'
       : `${selectedFiles.length}/5 photo(s) — clique pour en ajouter`;
   }
  
-  // UPLOAD PHOTOS vers Supabase Storage
   async function uploadPhotos(annonceId) {
     const urls = [];
     for (let i = 0; i < selectedFiles.length; i++) {
@@ -313,7 +305,7 @@
           urls.push(`${SUPABASE_URL}/storage/v1/object/public/photos/${path}`);
         } else {
           const err = await res.json();
-          console.error('Upload error:', err);
+          console.error('Upload error photo', i, ':', JSON.stringify(err));
         }
       } catch(e) {
         console.error('Upload failed:', e);
@@ -322,10 +314,9 @@
     return urls;
   }
  
-  // CHARGER LES ANNONCES
   async function loadAnnonces() {
     try {
-      const res = await fetch(SUPABASE_URL + '/rest/v1/annonces?select=*&order=created_at.desc', { headers });
+      const res = await fetch(SUPABASE_URL + '/rest/v1/annonces?select=*&order=created_at.desc', { headers: jsonHeaders });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
       allAnnonces = data;
@@ -333,6 +324,16 @@
     } catch(e) {
       document.getElementById('cars-grid').innerHTML = '<div class="loading">❌ Erreur : ' + e.message + '</div>';
     }
+  }
+ 
+  // ✅ Fonction robuste qui gère text, JSON string, et tableau natif
+  function parsePhotos(raw) {
+    if (!raw) return [];
+    if (Array.isArray(raw)) return raw;
+    if (typeof raw === 'string') {
+      try { return JSON.parse(raw); } catch(e) { return []; }
+    }
+    return [];
   }
  
   function renderCars(list) {
@@ -344,8 +345,7 @@
       return;
     }
     grid.innerHTML = list.map((a, i) => {
-      let photos = [];
-      try { photos = a.photos ? JSON.parse(a.photos) : []; } catch(e) {}
+      const photos = parsePhotos(a.photos);
       const imgHtml = photos.length > 0
         ? `<div class="car-img"><img src="${photos[0]}" alt="${a.marque} ${a.modele}" loading="lazy" /></div>`
         : `<div class="car-img">${emojis[i % emojis.length]}</div>`;
@@ -358,8 +358,7 @@
             <div class="car-price">${Number(a.prix).toLocaleString('fr-FR')} €</div>
             <div class="car-tags"><span class="tag">Particulier</span><span class="tag">${a.carburant}</span></div>
           </div>
-        </div>
-      `;
+        </div>`;
     }).join('');
   }
  
@@ -374,18 +373,11 @@
  
   function openModal(id) {
     const a = allAnnonces.find(x => x.id === id);
-    let photos = [];
-    try { photos = a.photos ? JSON.parse(a.photos) : []; } catch(e) {}
+    if (!a) return;
+    const photos = parsePhotos(a.photos);
  
-    const mainPhoto = document.getElementById('modal-main-photo');
-    if (photos.length > 0) {
-      mainPhoto.innerHTML = `<img src="${photos[0]}" />`;
-    } else {
-      mainPhoto.innerHTML = '🚗';
-    }
- 
-    const thumbs = document.getElementById('modal-thumbs');
-    thumbs.innerHTML = photos.length > 1
+    document.getElementById('modal-main-photo').innerHTML = photos.length > 0 ? `<img src="${photos[0]}" />` : '🚗';
+    document.getElementById('modal-thumbs').innerHTML = photos.length > 1
       ? photos.map((p, i) => `<img src="${p}" class="modal-thumb ${i===0?'active':''}" onclick="switchPhoto('${p}', this)" />`).join('')
       : '';
  
@@ -397,8 +389,7 @@
       <div><span>Kilométrage</span>${Number(a.km).toLocaleString('fr-FR')} km</div>
       <div><span>Carburant</span>${a.carburant}</div>
       <div><span>Ville</span>${a.ville || 'Non précisée'}</div>
-      <div><span>Vendeur</span>${a.prenom}</div>
-    `;
+      <div><span>Vendeur</span>${a.prenom}</div>`;
     document.getElementById('modal-contact').onclick = () => window.location.href = 'tel:' + a.tel;
     document.getElementById('modal').classList.add('open');
   }
@@ -438,35 +429,51 @@
       // 1. Créer l'annonce
       const res = await fetch(SUPABASE_URL + '/rest/v1/annonces', {
         method: 'POST',
-        headers: { ...headers, 'Prefer': 'return=representation' },
+        headers: { ...jsonHeaders, 'Prefer': 'return=representation' },
         body: JSON.stringify({ marque, modele, annee, km, carburant, prix, prenom, tel, description, ville, photos: '[]' })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || JSON.stringify(data));
       const annonceId = data[0].id;
  
-      // 2. Upload photos si présentes
+      // 2. Upload photos
       let photoUrls = [];
       if (selectedFiles.length > 0) {
         btn.textContent = '📷 Upload des photos...';
         photoUrls = await uploadPhotos(annonceId);
-        // 3. Mettre à jour avec les URLs
-        await fetch(`${SUPABASE_URL}/rest/v1/annonces?id=eq.${annonceId}`, {
-          method: 'PATCH',
-          headers,
-          body: JSON.stringify({ photos: JSON.stringify(photoUrls) })
-        });
+ 
+        if (photoUrls.length > 0) {
+          // ✅ PATCH corrigé avec tous les headers nécessaires
+          const patchRes = await fetch(`${SUPABASE_URL}/rest/v1/annonces?id=eq.${annonceId}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_KEY,
+              'Authorization': 'Bearer ' + SUPABASE_KEY,
+              'Prefer': 'return=representation'
+            },
+            body: JSON.stringify({ photos: JSON.stringify(photoUrls) })
+          });
+          if (!patchRes.ok) {
+            const patchErr = await patchRes.json();
+            console.error('PATCH photos erreur:', JSON.stringify(patchErr));
+            throw new Error('Sauvegarde photos échouée : ' + JSON.stringify(patchErr));
+          }
+        }
       }
  
-      // Reset formulaire
-      ['f-marque','f-modele','f-annee','f-km','f-prix','f-prenom','f-tel','f-desc','f-ville'].forEach(id => document.getElementById(id).value = '');
+      // Reset
+      ['f-marque','f-modele','f-annee','f-km','f-prix','f-prenom','f-tel','f-desc','f-ville'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
       selectedFiles = [];
       document.getElementById('photo-previews').innerHTML = '';
       document.querySelector('.photo-upload-area p').textContent = 'Clique pour ajouter des photos';
  
       await loadAnnonces();
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      alert('✅ Annonce publiée avec succès !' + (photoUrls.length > 0 ? ` (${photoUrls.length} photo(s) ajoutée(s))` : ''));
+      alert('✅ Annonce publiée !' + (photoUrls.length > 0 ? ` (${photoUrls.length} photo(s))` : ''));
+ 
     } catch(e) {
       alert('Erreur : ' + e.message);
     }
