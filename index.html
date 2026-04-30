@@ -209,35 +209,42 @@
     </div>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@superbase/superbase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const emojis = ['🚗','🚙','🚕','🏎️','🚐','🚌'];
-  const SUPABASE_URL = 'https://fulipbhrniudwburowzr.supabase.co';
+  const SUPABASE_URL = 'https://fulipbhrmniudwburovzr.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_4D3lCAYY82NdJGKc2T-_4w__yy1GzLN';
-  const supabase = supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  
+  // Correction ici : S majuscule pour appeler la bibliothèque
+  const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  
   let annonces = [];
+
+  // Cette fonction va chercher les VRAIES voitures dans ta base
   async function fetchAnnonces() {
-const { data, error } = await supabase
-.from('annonces')
-.select('*')
-.order('id', { ascending: false });
+    const { data, error } = await supabase
+      .from('annonces')
+      .select('*')
+      .order('id', { ascending: false });
 
-if (!error && data) {
-annonces = data;
-renderCars(annonces);
-}
-}
+    if (!error && data) {
+      annonces = data;
+      renderCars(annonces);
+    }
+  }
 
-fetchAnnonces();
+  fetchAnnonces();
 
   function renderCars(list) {
     const grid = document.getElementById('cars-grid');
     document.getElementById('count-annonces').textContent = list.length;
     document.getElementById('badge-count').textContent = list.length + ' annonce' + (list.length > 1 ? 's' : '');
+    
     if (list.length === 0) {
       grid.innerHTML = '<p style="color:#9a9a95;font-size:14px;grid-column:1/-1;">Aucune annonce trouvée.</p>';
       return;
     }
+    
     grid.innerHTML = list.map((a, i) => `
       <div class="car-card" onclick="openModal(${a.id})">
         <div class="car-img">${emojis[i % emojis.length]}</div>
@@ -279,7 +286,8 @@ fetchAnnonces();
     if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open');
   }
 
-  function submitAnnonce() {
+  // La fonction magique qui SAUVEGARDE vraiment
+  async function submitAnnonce() {
     const marque = document.getElementById('f-marque').value.trim();
     const modele = document.getElementById('f-modele').value.trim();
     const annee = parseInt(document.getElementById('f-annee').value);
@@ -294,15 +302,21 @@ fetchAnnonces();
       alert('Merci de remplir tous les champs obligatoires (*)');
       return;
     }
-    const newId = annonces.length + 1;
-    annonces.unshift({ id: newId, marque, modele, annee, km, carburant, prix, prenom, tel, desc });
-    renderCars(annonces);
-    ['f-marque','f-modele','f-annee','f-km','f-prix','f-prenom','f-tel','f-desc'].forEach(id => document.getElementById(id).value = '');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    alert('✅ Annonce publiée avec succès !');
-  }
 
-  renderCars(annonces);
+    // Envoi à Supabase
+    const { error } = await supabase.from('annonces').insert([{
+      marque, modele, annee, km, prix, prenom, tel, carburant, desc
+    }]);
+
+    if (error) {
+      alert("Erreur technique : " + error.message);
+    } else {
+      alert('✅ Bravo ! Ton annonce est en ligne.');
+      ['f-marque','f-modele','f-annee','f-km','f-prix','f-prenom','f-tel','f-desc'].forEach(id => document.getElementById(id).value = '');
+      fetchAnnonces(); // On recharge la page proprement
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
 </script>
 </body>
 </html>
