@@ -1,122 +1,319 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoMarché - Vente auto entre particuliers</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoMarché — Vente auto entre particuliers</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #E24B4A;
+      --gray-100: #f5f5f3;
+      --gray-200: #e8e8e5;
+      --gray-400: #9a9a95;
+      --gray-700: #3a3a38;
+      --gray-900: #1a1a18;
+      --white: #ffffff;
+      --radius: 10px;
+      --radius-lg: 16px;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--gray-100); color: var(--gray-900); min-height: 100vh; }
+ 
+    header { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 20px; font-weight: 600; color: var(--gray-900); display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--red); }
+    .btn { padding: 8px 16px; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; border: 1px solid var(--gray-200); background: transparent; color: var(--gray-700); transition: all 0.15s; }
+    .btn:hover { background: var(--gray-100); }
+    .btn-primary { background: var(--red); color: white; border-color: var(--red); }
+    .btn-primary:hover { background: #c43d3c; }
+ 
+    .hero { background: var(--white); padding: 48px 24px 40px; text-align: center; border-bottom: 1px solid var(--gray-200); }
+    .hero h1 { font-size: 36px; font-weight: 600; line-height: 1.2; margin-bottom: 10px; }
+    .hero h1 span { color: var(--red); }
+    .hero p { font-size: 16px; color: var(--gray-400); margin-bottom: 28px; }
+    .search-box { max-width: 600px; margin: 0 auto; background: var(--gray-100); border-radius: var(--radius-lg); padding: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .search-box input, .search-box select { flex: 1; min-width: 140px; padding: 10px 14px; border-radius: var(--radius); border: 1px solid var(--gray-200); background: var(--white); font-family: inherit; font-size: 14px; color: var(--gray-900); outline: none; }
+    .search-box input:focus, .search-box select:focus { border-color: var(--red); }
+    .search-box button { padding: 10px 22px; background: var(--red); color: white; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; }
+ 
+    .stats { display: flex; justify-content: center; gap: 40px; padding: 24px; background: var(--white); border-bottom: 1px solid var(--gray-200); }
+    .stat { text-align: center; }
+    .stat-num { font-size: 24px; font-weight: 600; }
+    .stat-label { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
+ 
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .section-header h2 { font-size: 18px; font-weight: 600; }
+    .badge { background: #eaf3de; color: #3b6d11; font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+ 
+    .cars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .car-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); overflow: hidden; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+    .car-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .car-img { width: 100%; height: 150px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 48px; }
+    .car-body { padding: 14px 16px; }
+    .car-title { font-size: 15px; font-weight: 600; }
+    .car-sub { font-size: 13px; color: var(--gray-400); margin-top: 3px; }
+    .car-price { font-size: 20px; font-weight: 600; color: var(--red); margin-top: 10px; }
+    .car-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+    .tag { font-size: 12px; padding: 3px 9px; border-radius: 20px; background: var(--gray-100); color: var(--gray-700); border: 1px solid var(--gray-200); }
+ 
+    .empty-state { grid-column: 1/-1; text-align: center; padding: 48px 24px; color: var(--gray-400); }
+    .empty-state div { font-size: 40px; margin-bottom: 12px; }
+    .loading { grid-column: 1/-1; text-align: center; padding: 48px; color: var(--gray-400); font-size: 15px; }
+ 
+    .form-section { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 28px; margin-top: 32px; }
+    .form-section h2 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .form-section p { font-size: 14px; color: var(--gray-400); margin-bottom: 24px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: 13px; font-weight: 500; color: var(--gray-700); }
+    .form-group input, .form-group select, .form-group textarea { padding: 10px 14px; border-radius: var(--radius); border: 1px solid var(--gray-200); font-family: inherit; font-size: 14px; color: var(--gray-900); outline: none; background: var(--gray-100); transition: border-color 0.15s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--red); background: var(--white); }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-submit { margin-top: 18px; text-align: right; }
+ 
+    footer { text-align: center; padding: 32px 24px; color: var(--gray-400); font-size: 13px; border-top: 1px solid var(--gray-200); margin-top: 48px; background: var(--white); }
+ 
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--white); border-radius: var(--radius-lg); padding: 28px; max-width: 480px; width: 90%; }
+    .modal h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .modal p { font-size: 14px; color: var(--gray-400); margin-bottom: 20px; }
+    .modal-close { float: right; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--gray-400); margin-top: -4px; }
+    .modal-detail { display: flex; gap: 10px; flex-direction: column; font-size: 14px; }
+    .modal-detail span { color: var(--gray-400); min-width: 80px; display: inline-block; }
+ 
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 26px; }
+      .stats { gap: 20px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: 1; }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-
-    <header class="bg-white shadow-sm py-4 px-6 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-red-600 flex items-center gap-2">
-            <span class="text-red-600">●</span> AutoMarché
-        </h1>
-        <button onclick="document.getElementById('formulaire').scrollIntoView({behavior: 'smooth'})" class="bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition">
-            Déposer une annonce
-        </button>
-    </header>
-
-    <main class="max-w-4xl mx-auto p-6">
-        <section class="text-center py-12">
-            <h2 class="text-4xl font-extrabold mb-4">Achetez ou vendez votre voiture <span class="text-red-600">entre particuliers</span></h2>
-            <p class="text-gray-600 text-lg">Des milliers d'annonces — 100% gratuit, sans intermédiaire</p>
-        </section>
-
-        <section id="formulaire" class="bg-white p-8 rounded-2xl shadow-lg mb-12 border border-gray-100">
-            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">Déposez une annonce gratuite</h3>
-            <form id="annonceForm" onsubmit="submitAnnonce(event)" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Marque *</label>
-                    <input type="text" id="marque" placeholder="ex: Peugeot" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Modèle *</label>
-                    <input type="text" id="modele" placeholder="ex: 208" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Année *</label>
-                    <input type="number" id="annee" placeholder="2020" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Kilométrage *</label>
-                    <input type="number" id="km" placeholder="45000" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Prix (€) *</label>
-                    <input type="number" id="prix" placeholder="12000" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Carburant *</label>
-                    <select id="carburant" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none">
-                        <option>Essence</option>
-                        <option>Diesel</option>
-                        <option>Électrique</option>
-                        <option>Hybride</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Prénom *</label>
-                    <input type="text" id="prenom" placeholder="Votre prénom" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Téléphone *</label>
-                    <input type="tel" id="tel" placeholder="06..." class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none" required>
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-semibold mb-2">Description</label>
-                    <textarea id="desc" rows="3" placeholder="État du véhicule, options..." class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none"></textarea>
-                </div>
-                <div class="md:col-span-2">
-                    <button type="submit" class="w-full bg-red-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-red-700 shadow-md transition">
-                        Publier mon annonce
-                    </button>
-                </div>
-            </form>
-        </section>
-    </main>
-
-    <script>
-        // CONFIGURATION SUPABASE
-        const SUPABASE_URL = 'https://fulipbhrmniudwburovzr.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1bGlwYmhybml1ZHdidXJvd3pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDYxMTMsImV4cCI6MjA5MzEyMjExM30.mUSUXHcsv7Y2q2dc4I_W0tKkDxHC3hB2GADnbiElTus';
-        
-        // Initialisation sécurisée
-        const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        async function submitAnnonce(event) {
-            event.preventDefault();
-            
-            const emojis = ['🚗', '🚕', '🚙', '🏎️', '🚐', '🛻'];
-
-            const data = {
-                marque: document.getElementById('marque').value,
-                modele: document.getElementById('modele').value,
-                annee: parseInt(document.getElementById('annee').value),
-                km: parseInt(document.getElementById('km').value),
-                prix: parseInt(document.getElementById('prix').value),
-                prenom: document.getElementById('prenom').value,
-                tel: document.getElementById('tel').value,
-                carburant: document.getElementById('carburant').value,
-                desc: document.getElementById('desc').value,
-                image: emojis[Math.floor(Math.random() * emojis.length)]
-            };
-
-            try {
-                const { error } = await db.from('annonces').insert([data]);
-
-                if (error) throw error;
-
-                alert("🔥 Bravo ! Ton annonce est maintenant en ligne !");
-                document.getElementById('annonceForm').reset();
-                window.scrollTo({top: 0, behavior: 'smooth'});
-
-            } catch (error) {
-                console.error("Erreur détaillée :", error);
-                alert("Oups ! Une erreur est survenue : " + (error.message || "Vérifie ta connexion."));
-            }
-        }
-    </script>
+<body>
+ 
+<header>
+  <a class="logo" href="#"><div class="logo-dot"></div>AutoMarché</a>
+  <button class="btn btn-primary" onclick="document.getElementById('deposer').scrollIntoView({behavior:'smooth'})">Déposer une annonce</button>
+</header>
+ 
+<div class="hero">
+  <h1>Achetez ou vendez votre voiture<br><span>entre particuliers</span></h1>
+  <p>Des annonces en région PACA — 100% gratuit, sans intermédiaire</p>
+  <div class="search-box">
+    <input type="text" id="search-input" placeholder="Marque, modèle..." oninput="filterCars()" />
+    <select id="search-budget" onchange="filterCars()">
+      <option value="">Budget max</option>
+      <option value="5000">5 000 €</option>
+      <option value="10000">10 000 €</option>
+      <option value="20000">20 000 €</option>
+      <option value="50000">50 000 €</option>
+    </select>
+    <button onclick="filterCars()">Rechercher</button>
+  </div>
+</div>
+ 
+<div class="stats">
+  <div class="stat"><div class="stat-num" id="count-annonces">—</div><div class="stat-label">annonces</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">gratuit</div></div>
+  <div class="stat"><div class="stat-num">PACA</div><div class="stat-label">région</div></div>
+</div>
+ 
+<div class="container">
+  <div class="section-header">
+    <h2>Annonces récentes <span class="badge" id="badge-count">chargement...</span></h2>
+  </div>
+ 
+  <div class="cars-grid" id="cars-grid">
+    <div class="loading">⏳ Chargement des annonces...</div>
+  </div>
+ 
+  <div class="form-section" id="deposer">
+    <h2>Déposer une annonce gratuite</h2>
+    <p>Vendez votre voiture en quelques minutes — sans inscription requise</p>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Marque *</label>
+        <input type="text" id="f-marque" placeholder="Ex: Renault" />
+      </div>
+      <div class="form-group">
+        <label>Modèle *</label>
+        <input type="text" id="f-modele" placeholder="Ex: Clio" />
+      </div>
+      <div class="form-group">
+        <label>Année *</label>
+        <input type="number" id="f-annee" placeholder="Ex: 2019" min="1990" max="2026" />
+      </div>
+      <div class="form-group">
+        <label>Kilométrage *</label>
+        <input type="number" id="f-km" placeholder="Ex: 48000" />
+      </div>
+      <div class="form-group">
+        <label>Carburant</label>
+        <select id="f-carburant">
+          <option>Essence</option>
+          <option>Diesel</option>
+          <option>Hybride</option>
+          <option>Électrique</option>
+          <option>GPL</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Prix (€) *</label>
+        <input type="number" id="f-prix" placeholder="Ex: 9500" />
+      </div>
+      <div class="form-group full">
+        <label>Description</label>
+        <textarea id="f-desc" placeholder="État général, options, historique d'entretien..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Votre prénom *</label>
+        <input type="text" id="f-prenom" placeholder="Ex: Marc" />
+      </div>
+      <div class="form-group">
+        <label>Téléphone *</label>
+        <input type="tel" id="f-tel" placeholder="Ex: 06 12 34 56 78" />
+      </div>
+    </div>
+    <div class="form-submit">
+      <button class="btn btn-primary" id="submit-btn" style="padding:12px 28px;font-size:15px;" onclick="submitAnnonce()">Publier mon annonce gratuitement</button>
+    </div>
+  </div>
+</div>
+ 
+<footer>
+  © 2025 AutoMarché · Marseille / PACA · 100% gratuit
+</footer>
+ 
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
+    <h3 id="modal-title"></h3>
+    <p id="modal-sub"></p>
+    <div class="modal-detail" id="modal-detail"></div>
+    <div style="margin-top:20px;">
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" id="modal-contact">Contacter le vendeur</button>
+    </div>
+  </div>
+</div>
+ 
+<script>
+  const SUPABASE_URL = 'https://fulipbhrniudwburowzr.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1bGlwYmhybml1ZHdidXJvd3pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NDYxMTMsImV4cCI6MjA5MzEyMjExM30.mUSUXHcsv7Y2q2dc4I_W0tKkDxHC3hB2GADnbiElTus';
+  const { createClient } = supabase;
+  const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+ 
+  const emojis = ['🚗','🚙','🚕','🏎️','🚐','🚌','🚓','🚑'];
+  let allAnnonces = [];
+ 
+  async function loadAnnonces() {
+    const { data, error } = await db
+      .from('annonces')
+      .select('*')
+      .order('created_at', { ascending: false });
+ 
+    if (error) {
+      document.getElementById('cars-grid').innerHTML = '<div class="loading">❌ Erreur de chargement. Vérifie ta connexion Supabase.</div>';
+      return;
+    }
+    allAnnonces = data || [];
+    renderCars(allAnnonces);
+  }
+ 
+  function renderCars(list) {
+    const grid = document.getElementById('cars-grid');
+    document.getElementById('count-annonces').textContent = list.length;
+    document.getElementById('badge-count').textContent = list.length + ' annonce' + (list.length > 1 ? 's' : '');
+ 
+    if (list.length === 0) {
+      grid.innerHTML = `<div class="empty-state"><div>🚗</div>Aucune annonce pour le moment.<br>Sois le premier à déposer !</div>`;
+      return;
+    }
+ 
+    grid.innerHTML = list.map((a, i) => `
+      <div class="car-card" onclick="openModal(${a.id})">
+        <div class="car-img">${emojis[i % emojis.length]}</div>
+        <div class="car-body">
+          <div class="car-title">${a.marque} ${a.modele}</div>
+          <div class="car-sub">${a.annee} · ${Number(a.km).toLocaleString('fr-FR')} km · ${a.carburant}</div>
+          <div class="car-price">${Number(a.prix).toLocaleString('fr-FR')} €</div>
+          <div class="car-tags"><span class="tag">Particulier</span><span class="tag">${a.carburant}</span></div>
+        </div>
+      </div>
+    `).join('');
+  }
+ 
+  function filterCars() {
+    const q = document.getElementById('search-input').value.toLowerCase();
+    const budget = parseInt(document.getElementById('search-budget').value) || Infinity;
+    const filtered = allAnnonces.filter(a =>
+      (a.marque.toLowerCase().includes(q) || a.modele.toLowerCase().includes(q)) && a.prix <= budget
+    );
+    renderCars(filtered);
+  }
+ 
+  function openModal(id) {
+    const a = allAnnonces.find(x => x.id === id);
+    document.getElementById('modal-title').textContent = a.marque + ' ' + a.modele;
+    document.getElementById('modal-sub').textContent = a.description || '';
+    document.getElementById('modal-detail').innerHTML = `
+      <div><span>Année</span>${a.annee}</div>
+      <div><span>Kilométrage</span>${Number(a.km).toLocaleString('fr-FR')} km</div>
+      <div><span>Carburant</span>${a.carburant}</div>
+      <div><span>Prix</span><strong style="color:#E24B4A">${Number(a.prix).toLocaleString('fr-FR')} €</strong></div>
+      <div><span>Vendeur</span>${a.prenom}</div>
+    `;
+    document.getElementById('modal-contact').onclick = () => window.location.href = 'tel:' + a.tel;
+    document.getElementById('modal').classList.add('open');
+  }
+ 
+  function closeModal(e) {
+    if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open');
+  }
+ 
+  async function submitAnnonce() {
+    const marque = document.getElementById('f-marque').value.trim();
+    const modele = document.getElementById('f-modele').value.trim();
+    const annee = parseInt(document.getElementById('f-annee').value);
+    const km = parseInt(document.getElementById('f-km').value);
+    const prix = parseInt(document.getElementById('f-prix').value);
+    const prenom = document.getElementById('f-prenom').value.trim();
+    const tel = document.getElementById('f-tel').value.trim();
+    const carburant = document.getElementById('f-carburant').value;
+    const description = document.getElementById('f-desc').value.trim();
+ 
+    if (!marque || !modele || !annee || !km || !prix || !prenom || !tel) {
+      alert('Merci de remplir tous les champs obligatoires (*)');
+      return;
+    }
+ 
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Publication en cours...';
+    btn.disabled = true;
+ 
+    const { error } = await db.from('annonces').insert([{
+      marque, modele, annee, km, carburant, prix, prenom, tel, description
+    }]);
+ 
+    btn.textContent = 'Publier mon annonce gratuitement';
+    btn.disabled = false;
+ 
+    if (error) {
+      alert('Erreur : ' + error.message);
+      return;
+    }
+ 
+    ['f-marque','f-modele','f-annee','f-km','f-prix','f-prenom','f-tel','f-desc'].forEach(id => document.getElementById(id).value = '');
+    await loadAnnonces();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    alert('✅ Annonce publiée avec succès !');
+  }
+ 
+  loadAnnonces();
+</script>
 </body>
 </html>
