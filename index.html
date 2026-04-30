@@ -213,27 +213,29 @@
 <script>
   const emojis = ['🚗','🚙','🚕','🏎️','🚐','🚌'];
   const SUPABASE_URL = 'https://fulipbhrmniudwburovzr.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_4D3lCAYY82NdJGKc2T-_4w__yy1GzLN';
+  const SUPABASE_KEY = 'sb_publishable_4D31CAYY82NdJGKc2t-_4w__yy1GzLN';
   
-  // Correction ici : S majuscule pour appeler la bibliothèque
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  
+  // Utilisation de window.supabase pour être sûr à 100%
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
   let annonces = [];
 
-  // Cette fonction va chercher les VRAIES voitures dans ta base
   async function fetchAnnonces() {
-    const { data, error } = await supabase
-      .from('annonces')
-      .select('*')
-      .order('id', { ascending: false });
+      const { data, error } = await supabase
+          .from('annonces')
+          .select('*')
+          .order('id', { ascending: false });
 
-    if (!error && data) {
-      annonces = data;
-      renderCars(annonces);
-    }
+      if (!error && data) {
+          annonces = data;
+          renderCars(annonces);
+      } else if (error) {
+          console.error("Erreur Supabase:", error);
+      }
   }
 
   fetchAnnonces();
+</script>
 
   function renderCars(list) {
     const grid = document.getElementById('cars-grid');
