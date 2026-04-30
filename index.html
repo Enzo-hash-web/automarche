@@ -216,7 +216,7 @@
   const SUPABASE_KEY = 'sb_publishable_4D3lCAYY82NdJGKc2T-_4w__yy1GzLN';
   
   // Correction ici : S majuscule pour appeler la bibliothèque
-  const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   
   let annonces = [];
 
